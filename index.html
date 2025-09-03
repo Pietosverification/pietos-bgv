@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pietos - Document Verification</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://pietos.com/wp-content/uploads/2020/08/Untitled-design-3-180x52.png" alt="Pietos Logo" class="logo">
+                </div>
+                <div class="header-buttons">
+                    <button class="header-btn" id="logout-btn">Logout</button>
+                    <button class="header-btn" id="admin-panel-btn">Admin Panel</button>
+                    <button class="header-btn" id="view-consent-btn">View Consent Data</button>
+                    <button class="header-btn" id="view-report-btn">View Final Report</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="main-content">
+        <div class="container">
+            <h1>Document Verification</h1>
+            <p>Select a document to verify your identity</p>
+            
+            <div class="verification-options">
+                <div class="verification-card" id="aadhaar-card">
+                    <div class="card-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="card-title">Aadhaar</div>
+                    <div class="card-description">Verify your identity Via Digilocker</div>
+                </div>
+                
+                <div class="verification-card pan-card" id="pan-card">
+                    <div class="card-icon pan-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="card-title">PAN Card</div>
+                    <div class="card-description">Verify your PAN Via Digilocker</div>
+                </div>
+                
+                <div class="verification-card dl-card" id="dl-card">
+                    <div class="card-icon dl-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="card-title">Driving License</div>
+                    <div class="card-description">Verify your DL Via Digilocker</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="modal" id="aadhaar-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Aadhaar Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="consent-text">
+                    <p>To verify your Aadhaar, please provide your email or mobile number linked with Aadhaar. We'll send you a consent link to proceed with the verification.</p>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Email ID</label>
+                    <input type="email" id="user-email" placeholder="Enter your email">
+                    <div class="error-message" id="email-error">Please enter a valid email address</div>
+                </div>
+                <div style="text-align: center; margin: 15px 0; font-weight: bold;">OR</div>
+                <div class="form-group">
+                    <label for="user-mobile">Mobile Number</label>
+                    <input type="tel" id="user-mobile" placeholder="Enter your mobile number" maxlength="10">
+                    <div class="error-message" id="mobile-error">Please enter a valid 10-digit mobile number</div>
+                </div>
+                <button class="verify-btn" id="send-consent-btn">Send Consent Link</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="pan-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">PAN Card Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="consent-text">
+                    <p>To verify your PAN card, please provide your email or mobile number. We'll send you a consent link to proceed with the verification.</p>
+                </div>
+                <div class="form-group">
+                    <label for="pan-user-email">Email ID</label>
+                    <input type="email" id="pan-user-email" placeholder="Enter your email">
+                    <div class="error-message" id="pan-email-error">Please enter a valid email address</div>
+                </div>
+                <div style="text-align: center; margin: 15px 0; font-weight: bold;">OR</div>
+                <div class="form-group">
+                    <label for="pan-user-mobile">Mobile Number</label>
+                    <input type="tel" id="pan-user-mobile" placeholder="Enter your mobile number" maxlength="10">
+                    <div class="error-message" id="pan-mobile-error">Please enter a valid 10-digit mobile number</div>
+                </div>
+                <button class="verify-btn" id="pan-send-consent-btn">Send Consent Link</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="dl-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Driving License Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="consent-text">
+                    <p>To verify your Driving License, please provide your email or mobile number. We'll send you a consent link to proceed with the verification.</p>
+                </div>
+                <div class="form-group">
+                    <label for="dl-user-email">Email ID</label>
+                    <input type="email" id="dl-user-email" placeholder="Enter your email">
+                    <div class="error-message" id="dl-email-error">Please enter a valid email address</div>
+                </div>
+                <div style="text-align: center; margin: 15px 0; font-weight: bold;">OR</div>
+                <div class="form-group">
+                    <label for="dl-user-mobile">Mobile Number</label>
+                    <input type="tel" id="dl-user-mobile" placeholder="Enter your mobile number" maxlength="10">
+                    <div class="error-message" id="dl-mobile-error">Please enter a valid 10-digit mobile number</div>
+                </div>
+                <button class="verify-btn" id="dl-send-consent-btn">Send Consent Link</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="consent-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Consent Received</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner" id="consent-spinner"></div>
+                <div id="consent-content">
+                    <div class="consent-text">
+                        <p>You'll now be redirected to Digilocker for verification. Please login and share your consent to proceed.</p>
+                        <p>Your data will be securely processed and not stored beyond the verification process.</p>
+                    </div>
+                    <button class="verify-btn" id="redirect-digilocker">Proceed to Digilocker</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="pan-consent-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Consent Received</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner" id="pan-consent-spinner"></div>
+                <div id="pan-consent-content">
+                    <div class="consent-text">
+                        <p>You'll now be redirected to Digilocker for PAN verification. Please login and share your consent to proceed.</p>
+                        <p>Your data will be securely processed and not stored beyond the verification process.</p>
+                    </div>
+                    <button class="verify-btn" id="pan-redirect-digilocker">Proceed to Digilocker</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="dl-consent-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Consent Received</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner" id="dl-consent-spinner"></div>
+                <div id="dl-consent-content">
+                    <div class="consent-text">
+                        <p>You'll now be redirected to Digilocker for Driving License verification. Please login and share your consent to proceed.</p>
+                        <p>Your data will be securely processed and not stored beyond the verification process.</p>
+                    </div>
+                    <button class="verify-btn" id="dl-redirect-digilocker">Proceed to Digilocker</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Aadhaar Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verification Successful</h3>
+                    <p>Your Aadhaar details have been successfully verified</p>
+                </div>
+                
+                <div class="aadhaar-details">
+                    <div class="aadhaar-header">
+                        <div class="aadhaar-title">Aadhaar Details</div>
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Aadhaar_Logo.svg/1200px-Aadhaar_Logo.svg.png" alt="Aadhaar Logo" class="aadhaar-logo" style="height: 30px;">
+                    </div>
+                    
+                    <div class="aadhaar-number">XXXX XXXX 7890</div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Full Name:</div>
+                        <div class="detail-value">Robert Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Date of Birth:</div>
+                        <div class="detail-value">15/07/1985</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Gender:</div>
+                        <div class="detail-value">Male</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Father's Name:</div>
+                        <div class="detail-value">David Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Mobile:</div>
+                        <div class="detail-value">98XXXXXX90</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Address:</div>
+                        <div class="detail-value">123, Main Street, Bangalore, Karnataka - 560001</div>
+                    </div>
+                </div>
+                
+                <button class="verify-btn" id="close-details-btn">Done</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="pan-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">PAN Card Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verification Successful</h3>
+                    <p>Your PAN card details have been successfully verified</p>
+                </div>
+                
+                <div class="pan-details">
+                    <div class="pan-header">
+                        <div class="pan-title">PAN Card Details</div>
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Income_Tax_Department_India.svg/1200px-Income_Tax_Department_India.svg.png" alt="PAN Logo" class="pan-logo" style="height: 30px;">
+                    </div>
+                    
+                    <div class="pan-number">ABCDE1234F</div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Full Name:</div>
+                        <div class="detail-value">Robert Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Father's Name:</div>
+                        <div class="detail-value">David Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Date of Birth:</div>
+                        <div class="detail-value">15/07/1985</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Status:</div>
+                        <div class="detail-value">Individual</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">PAN Allotted Date:</div>
+                        <div class="detail-value">12/05/2010</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Last Updated:</div>
+                        <div class="detail-value">01/01/2023</div>
+                    </div>
+                </div>
+                
+                <button class="verify-btn" id="close-pan-details-btn">Done</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="dl-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Driving License Verification</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verification Successful</h3>
+                    <p>Your Driving License details have been successfully verified</p>
+                </div>
+                
+                <div class="dl-details">
+                    <div class="dl-header">
+                        <div class="dl-title">Driving License Details</div>
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Logo_of_the_Ministry_of_Road_Transport_and_Highways.svg/1200px-Logo_of_the_Ministry_of_Road_Transport_and_Highways.svg.png" alt="DL Logo" class="dl-logo" style="height: 30px;">
+                    </div>
+                    
+                    <div class="dl-number">KA0120191234567</div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Full Name:</div>
+                        <div class="detail-value">Robert Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Date of Birth:</div>
+                        <div class="detail-value">15/07/1985</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Father's Name:</div>
+                        <div class="detail-value">David Johnson</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Address:</div>
+                        <div class="detail-value">123, Main Street, Bangalore, Karnataka - 560001</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">License Type:</div>
+                        <div class="detail-value">MCWG, LMV</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Valid From:</div>
+                        <div class="detail-value">12/05/2015</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Valid Until:</div>
+                        <div class="detail-value">11/05/2035</div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-label">Issuing Authority:</div>
+                        <div class="detail-value">RTO Bangalore South</div>
+                    </div>
+                </div>
+                
+                <button class="verify-btn" id="close-dl-details-btn">Done</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="consent-data-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Consent Data</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="consent-text">
+                    <p>Below is the consent data collected during the verification process:</p>
+                </div>
+                
+                <div class="consent-content">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Consent ID</td>
+                                <td>CNST-2023-001</td>
+                            </tr>
+                            <tr>
+                                <td>Timestamp</td>
+                                <td>2023-10-15 14:30:25</td>
+                            </tr>
+                            <tr>
+                                <td>Method</td>
+                                <td>Digilocker</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>Approved</td>
+                            </tr>
+                            <tr>
+                                <td>User Email</td>
+                                <td>user@example.com</td>
+                            </tr>
+                            <tr>
+                                <td>User Mobile</td>
+                                <td>98XXXXXX90</td>
+                            </tr>
+                            <tr>
+                                <td>Purpose</td>
+                                <td>Identity Verification</td>
+                            </tr>
+                            <tr>
+                                <td>Data Shared</td>
+                                <td>Name, DOB, Gender, Address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button class="verify-btn" id="close-consent-data-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="final-report-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Final Verification Report</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="consent-text">
+                    <p>Below is the final verification report:</p>
+                </div>
+                
+                <div class="report-content">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Report ID</td>
+                                <td>RPT-2023-001</td>
+                            </tr>
+                            <tr>
+                                <td>Verification Date</td>
+                                <td>2023-10-15 14:35:42</td>
+                            </tr>
+                            <tr>
+                                <td>Document Type</td>
+                                <td>Aadhaar</td>
+                            </tr>
+                            <tr>
+                                <td>Verification Method</td>
+                                <td>Digilocker</td>
+                            </tr>
+                            <tr>
+                                <td>Verification Status</td>
+                                <td>Success</td>
+                            </tr>
+                            <tr>
+                                <td>Name Match</td>
+                                <td>Confirmed</td>
+                            </tr>
+                            <tr>
+                                <td>DOB Verification</td>
+                                <td>Confirmed</td>
+                            </tr>
+                            <tr>
+                                <td>Address Verification</td>
+                                <td>Confirmed</td>
+                            </tr>
+                            <tr>
+                                <td>Document Validity</td>
+                                <td>Valid</td>
+                            </tr>
+                            <tr>
+                                <td>Confidence Score</td>
+                                <td>98%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button class="verify-btn" id="close-final-report-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Pietos. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
