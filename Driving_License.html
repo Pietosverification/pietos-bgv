@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DL Verification - Pietos Solutions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #2c2c2c 60%, #ffd700 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .login-btn,
+    .register-btn {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .login-btn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    .register-btn {
+      background: linear-gradient(45deg, #ff6b6b, #ffa500);
+      color: #fff;
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .user-info {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      color: #fff;
+    }
+
+    .logout-btn {
+      background: rgba(255, 107, 107, 0.8);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 107, 107, 1);
+      transform: scale(1.05);
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 80px;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: monospace;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* Verification Container */
+    .verification-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    .verification-container h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #ffa500;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-group .hint {
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .submit-btn {
+      background: linear-gradient(45deg, #ff6b6b, #ffa500);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .submit-btn:disabled {
+      background: rgba(255, 255, 255, 0.2);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Results Section */
+    .results-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: none;
+    }
+
+    .results-section h3 {
+      margin-bottom: 1rem;
+      color: #ffa500;
+      text-align: center;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-weight: bold;
+      opacity: 0.9;
+    }
+
+    .result-value {
+      text-align: right;
+    }
+
+    .valid {
+      color: #4CAF50;
+    }
+
+    .invalid {
+      color: #f44336;
+    }
+
+    .loading {
+      text-align: center;
+      margin: 2rem 0;
+      display: none;
+    }
+
+    .loading-spinner {
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 4px solid #ffa500;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .error {
+      background: rgba(244, 67, 54, 0.2);
+      border: 1px solid rgba(244, 67, 54, 0.5);
+      color: #f44336;
+    }
+
+    .success {
+      background: rgba(76, 175, 80, 0.2);
+      border: 1px solid rgba(76, 175, 80, 0.5);
+      color: #4CAF50;
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      color: #ff6b6b;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      line-height: 1.6;
+    }
+
+    .footer-section a:hover {
+      color: #ff6b6b;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1rem;
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .verification-container {
+        padding: 2rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .auth-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="index.html"><img src="https://pietos.com/wp-content/uploads/2020/08/Untitled-design-3-140x41.png" alt="Pietos Solutions Logo"></a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
+      </ul>
+      <div class="auth-buttons" id="authButtons">
+        <button class="login-btn" onclick="openAuthModal('login')">Login</button>
+        <button class="register-btn" onclick="openAuthModal('register')">Register</button>
+      </div>
+      <div class="user-info" id="userInfo">
+        <span>Welcome, <strong id="userName">User</strong>!</span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+  <main class="main-content">
+    <section class="hero-section">
+      <h1 class="hero-title">Driving License Verification</h1>
+      <p class="hero-subtitle">Verify Driving License details instantly with our secure verification system</p>
+    </section>
+    <div class="verification-container">
+      <h2>Enter DL Details</h2>
+      <div id="errorMessage" class="message error" style="display: none;"></div>
+      <form id="dlVerificationForm">
+        <div class="form-group">
+          <label for="dlNumber">Driving License Number</label>
+          <input type="text" id="dlNumber" placeholder="Enter DL Number (e.g., DL-0420110147546)" required>
+          <p class="hint">Enter your complete Driving License number as printed on your license card</p>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" required>
+          <p class="hint">Enter your date of birth as per your Driving License records</p>
+        </div>
+        <button type="submit" class="submit-btn" id="verifyBtn">Verify DL</button>
+      </form>
+      <div class="loading" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+        <p>Verifying DL details...</p>
+      </div>
+      <div class="results-section" id="resultsSection">
+        <h3>Driving License Verification Results</h3>
+        <div class="result-item">
+          <span class="result-label">DL Number:</span>
+          <span class="result-value" id="resultDlNumber"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Status:</span>
+          <span class="result-value" id="resultStatus"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Candidate Name:</span>
+          <span class="result-value" id="resultName"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Father's Name:</span>
+          <span class="result-value" id="resultFatherName"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Gender:</span>
+          <span class="result-value" id="resultGender"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Date of Birth:</span>
+          <span class="result-value" id="resultDob"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Issue Date:</span>
+          <span class="result-value" id="resultIssueDate"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Expiry Date:</span>
+          <span class="result-value" id="resultExpiryDate"></span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Full Address:</span>
+          <span class="result-value" id="resultAddress"></span>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Pietos Solutions Pvt. Ltd.</h3>
+        <p>Leading provider of secure document verification services. We ensure authenticity and reliability in every verification process.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Services</h3>
+        <p><a href="index.html#services">Aadhaar Verification</a></p>
+        <p><a href="pan.html">PAN Verification</a></p>
+        <p><a href="index.html#services">Driving License Check</a></p>
+        <p><a href="index.html#services">UAN Verification</a></p>
+        <p><a href="index.html#services">Court Records</a></p>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <p>&#x2709; contact@pietos.com</p>
+        <p>&#x260E; +91 11 49074103, +91 1149074103</p>
+        <p>&#x1F4CD; 166 A, 1st Floor, Pratap Nagar, Mayur Vihar Phase I Delhi 110091</p>
+        <p>&#x1F310; www.pietos.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Pietos Solutions Pvt. Ltd.. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </div>
+  </footer>
+  <script>
+    // --- START: SCRIPT ---
+    // Authentication state
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+
+    // Update authentication UI on page load
+    function updateAuthUI() {
+      const authButtons = document.getElementById('authButtons');
+      const userInfo = document.getElementById('userInfo');
+      const userName = document.getElementById('userName');
+
+      if (userToken) {
+        try {
+          const payload = JSON.parse(atob(userToken.split('.')[1]));
+          userName.textContent = payload.name;
+          currentUser = payload;
+          authButtons.style.display = 'none';
+          userInfo.style.display = 'flex';
+        } catch (e) {
+          console.error("Failed to decode token", e);
+          logout();
+        }
+      } else {
+        authButtons.style.display = 'flex';
+        userInfo.style.display = 'none';
+      }
+    }
+
+    // Logout function
+    function logout() {
+      userToken = null;
+      currentUser = null;
+      localStorage.removeItem('userToken');
+      updateAuthUI();
+
+      const message = document.createElement('div');
+      message.className = 'message success';
+      message.textContent = 'Logged out successfully!';
+      message.style.position = 'fixed';
+      message.style.top = '100px';
+      message.style.right = '20px';
+      message.style.zIndex = '3000';
+      document.body.appendChild(message);
+      setTimeout(() => {
+        message.remove();
+      }, 3000);
+    }
+
+    // Show dashboard (redirects to login if not authenticated)
+    function showDashboard() {
+      if (!userToken) {
+        alert('Please login to access your dashboard');
+        window.location.href = 'index.html';
+        return;
+      }
+      window.location.href = 'index.html';
+    }
+
+    // Open authentication modal (redirects to main page)
+    function openAuthModal(mode) {
+      window.location.href = 'index.html';
+    }
+
+    // Handle form submission with real API call
+    document.getElementById('dlVerificationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // IMPORTANT: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+      const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby8FgWP2CAKjE2uOFxXj2jD6tvptwMtT3rpC2PIABQ5300-nEOGl7EDRwU2_TRHNHe4/exec';
+
+      if (!userToken) {
+        alert('Please login to verify DL details.');
+        return;
+      }
+
+      if (WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+        alert('CRITICAL: Web App URL is not configured in Driving_License.html. Please contact support.');
+        return;
+      }
+
+      const dlNumber = document.getElementById('dlNumber').value;
+      const dob = document.getElementById('dob').value;
+      const errorMessage = document.getElementById('errorMessage');
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const resultsSection = document.getElementById('resultsSection');
+      const verifyBtn = document.getElementById('verifyBtn');
+
+      errorMessage.style.display = 'none';
+      resultsSection.style.display = 'none';
+
+      loadingIndicator.style.display = 'block';
+      verifyBtn.disabled = true;
+
+      try {
+        const requestPayload = {
+          dlNumber: dlNumber,
+          dob: dob,
+          email: currentUser.email // Sending user's email for logging
+        };
+        const response = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(requestPayload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status} ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        // Check for errors returned by our script or the API
+        if (result.error || result.statusCode !== 200) {
+          throw new Error(result.message || result.error || 'Unknown API error occurred.');
+        }
+
+        const apiData = result.data;
+        const statusText = apiData.dl_no ? 'Valid' : 'Invalid';
+        document.getElementById('resultDlNumber').textContent = apiData.dl_no || 'N/A';
+        document.getElementById('resultStatus').textContent = statusText;
+        document.getElementById('resultStatus').className = statusText === 'Valid' ? 'result-value valid' : 'result-value invalid';
+        document.getElementById('resultName').textContent = apiData.full_name || 'N/A';
+        document.getElementById('resultFatherName').textContent = apiData.father_or_husband || 'N/A';
+        document.getElementById('resultGender').textContent = apiData.gender || 'N/A';
+        document.getElementById('resultDob').textContent = apiData.dob || 'N/A';
+        document.getElementById('resultIssueDate').textContent = apiData.issue_date || 'N/A';
+        document.getElementById('resultExpiryDate').textContent = apiData.valid_till || 'N/A';
+        document.getElementById('resultAddress').textContent = apiData.address.full_address || 'N/A';
+
+        resultsSection.style.display = 'block';
+      } catch (error) {
+        errorMessage.textContent = `Verification failed: ${error.message}`;
+        errorMessage.style.display = 'block';
+      } finally {
+        loadingIndicator.style.display = 'none';
+        verifyBtn.disabled = false;
+      }
+    });
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      updateAuthUI();
+
+      // Set max date for date of birth to today
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      const maxDate = `${yyyy}-${mm}-${dd}`;
+      document.getElementById('dob').setAttribute('max', maxDate);
+    });
+    // --- END: SCRIPT ---
+  </script>
+</body>
+
+</html>
